@@ -1,0 +1,4 @@
+Best model: VGG16
+VGG16 Accuracy: 0.7400
+MobileNetV2 Accuracy: 0.9300
+Date: 2025-05-22 06:31:58.371519
