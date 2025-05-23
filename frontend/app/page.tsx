@@ -23,7 +23,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-grid-white/[0.02] -z-10"></div>
 
               <Tabs defaultValue="image" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-8 bg-zinc-800/50 p-1 rounded-lg">
+                <TabsList className="grid w-full grid-cols-2 mb-8 bg-zinc-800/50 sm:p-1 rounded-lg">
                   <TabsTrigger
                     value="image"
                     className="data-[state=active]:bg-zinc-700 data-[state=active]:text-white rounded-md transition-all"

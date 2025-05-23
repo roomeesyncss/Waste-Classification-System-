@@ -16,7 +16,7 @@ import { cn, getWasteTypeColor, getWasteTypeEmoji } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "https://6275-147-135-15-16.ngrok-free.app";
 
 interface PredictionResponse {
   prediction: string;
@@ -63,7 +63,6 @@ export default function CameraStreamDetection() {
 
     const frameData = captureFrame();
     if (!frameData) return;
-
     setIsProcessingFrame(true);
 
     try {
@@ -74,7 +73,7 @@ export default function CameraStreamDetection() {
           headers: {
             "Content-Type": "application/json",
           },
-          timeout: 5000,
+          timeout: 1000,
         }
       );
 
@@ -171,7 +170,7 @@ export default function CameraStreamDetection() {
       setIsDetecting(true);
       setDetectionCount(0);
 
-      detectionIntervalRef.current = setInterval(detectFrame, 2000);
+      detectionIntervalRef.current = setInterval(detectFrame, 5000);
 
       toast.success("Real-time detection started");
     } else {
@@ -259,7 +258,7 @@ export default function CameraStreamDetection() {
         </Alert>
       )}
 
-      <div className="flex justify-center gap-4">
+      <div className="flex sm:flex-row flex-col justify-center gap-4">
         <Button
           onClick={isStreaming ? stopCamera : startCamera}
           variant={isStreaming ? "outline" : "default"}
@@ -288,7 +287,7 @@ export default function CameraStreamDetection() {
             variant={isDetecting ? "outline" : "default"}
             disabled={isProcessingFrame}
             className={cn(
-              "w-full max-w-xs transition-all duration-300",
+              "w-full max-w-xs transition-all duration-300 text-white",
               !isDetecting &&
                 "bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 shadow-lg hover:shadow-purple-500/20"
             )}
@@ -312,24 +311,26 @@ export default function CameraStreamDetection() {
         <Card className="mt-6 bg-zinc-900/80 border-zinc-800/50 overflow-hidden backdrop-blur-sm">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-teal-500/5"></div>
           <CardContent className="pt-6 relative">
-            <div className="flex items-center mb-4">
-              <div className="w-2 h-2 rounded-full bg-purple-500 mr-2 animate-pulse"></div>
-              <h3 className="text-lg font-medium text-zinc-200">
-                Live Detection Results
-              </h3>
-              <div className="ml-auto text-xs text-zinc-400">
+            <div className="flex sm:flex-row flex-col justify-center mb-4">
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-purple-500 mr-2 animate-pulse"></div>
+                <h3 className="text-lg font-medium text-zinc-200">
+                  Live Detection Results
+                </h3>
+              </div>
+              <div className="max-sm:ml-auto text-xs text-zinc-400">
                 Frame #{detectionCount}
               </div>
             </div>
             <div className="p-6 bg-zinc-800/80 rounded-lg border border-zinc-700/50 shadow-inner">
-              <div className="flex items-center justify-center space-x-4">
-                <span className="text-4xl animate-bounce">
+              <div className="flex sm:flex-row flex-col items-center justify-center space-x-4">
+                <span className="sm:text-4xl text-2xl animate-bounce max-sm:text-center">
                   {getWasteTypeEmoji(detectionResult)}
                 </span>
                 <div className="text-center">
                   <p
                     className={cn(
-                      "text-2xl font-bold capitalize",
+                      "text-2xl font-bold capitalize max-sm:text-center",
                       getWasteTypeColor(detectionResult)
                     )}
                   >

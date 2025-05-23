@@ -10,7 +10,7 @@ import { cn, getWasteTypeColor, getWasteTypeEmoji } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "https://6275-147-135-15-16.ngrok-free.app";
 
 interface PredictionResponse {
   prediction: string;
@@ -62,7 +62,6 @@ export default function ImageUploadDetection() {
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
-
       const { data } = await axios.post<PredictionResponse>(
         `${API_BASE_URL}/predict`,
         formData,
