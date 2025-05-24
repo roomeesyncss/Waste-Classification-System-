@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 IMG_SIZE = 160
-MODEL_PATH = 'models/MobileNetV2_best.h5'
+MODEL_PATH = 'models/MobileNetV2_final.keras'  # Changed to .keras format
 CLASS_NAMES = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
 
 model = None
@@ -43,7 +43,6 @@ def load_classification_model():
         return False
 
 def preprocess_image(image_data):
-
     try:
         # Convert to PIL Image
         if isinstance(image_data, bytes):
@@ -160,10 +159,12 @@ async def predict_base64_image(data: Dict[str, str]):
         processed_image = preprocess_image(image_bytes)
 
         # Make prediction
-        predicted_class = predict_waste_class(processed_image)
+        predicted_class, confidence = predict_waste_class(processed_image)
 
         return {
-            "prediction": predicted_class
+            "prediction": predicted_class,
+            "confidence": confidence,
+            "model_type": "MobileNetV2"
         }
 
     except Exception as e:
@@ -174,7 +175,8 @@ async def get_classes():
     """Get list of available classes."""
     return {
         "classes": CLASS_NAMES,
-        "num_classes": len(CLASS_NAMES)
+        "num_classes": len(CLASS_NAMES),
+        "model_type": "MobileNetV2"
     }
 
 if __name__ == "__main__":
