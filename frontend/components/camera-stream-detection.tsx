@@ -16,8 +16,6 @@ import { cn, getWasteTypeColor, getWasteTypeEmoji } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 
-const API_BASE_URL = "https://6275-147-135-15-16.ngrok-free.app";
-
 interface PredictionResponse {
   prediction: string;
 }
@@ -67,7 +65,7 @@ export default function CameraStreamDetection() {
 
     try {
       const { data } = await axios.post<PredictionResponse>(
-        `${API_BASE_URL}/predict_base64`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/predict_base64`,
         { image: frameData },
         {
           headers: {
