@@ -34,50 +34,68 @@ export default function CameraStreamDetection() {
 
   const streamRef = useRef<MediaStream | null>(null);
 
-  const captureFrame = useCallback((): string | null => {
-    if (!videoRef.current || !canvasRef.current) return null;
+  const captureFrame = useCallback((): Promise<File | null> => {
+    return new Promise((resolve) => {
+      if (!videoRef.current || !canvasRef.current) {
+        resolve(null);
+        return;
+      }
 
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
 
-    if (!ctx || video.videoWidth === 0 || video.videoHeight === 0) return null;
+      if (!ctx || video.videoWidth === 0 || video.videoHeight === 0) {
+        resolve(null);
+        return;
+      }
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    try {
-      return canvas.toDataURL("image/jpeg", 0.8);
-    } catch (err) {
-      console.error("Error capturing frame:", err);
-      return null;
-    }
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const file = new File([blob], `frame-${Date.now()}.jpg`, {
+              type: "image/jpeg",
+            });
+            resolve(file);
+          } else {
+            resolve(null);
+          }
+        },
+        "image/jpeg",
+        0.8
+      );
+    });
   }, []);
 
   const detectFrame = useCallback(async () => {
     if (isProcessingFrame) return;
 
-    const frameData = captureFrame();
-    if (!frameData) return;
+    const frameFile = await captureFrame();
+    if (!frameFile) return;
+
     setIsProcessingFrame(true);
 
     try {
+      const formData = new FormData();
+      formData.append("file", frameFile);
+
       const { data } = await axios.post<PredictionResponse>(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/predict_base64`,
-        { image: frameData },
+        "/api/predict",
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
-          timeout: 1000,
+          timeout: 5000,
         }
       );
 
       setDetectionResult(data.prediction);
       setDetectionCount((prev) => prev + 1);
-
       setConfidence(Math.random() * 0.3 + 0.7);
     } catch (error) {
       console.error("Error during detection:", error);

@@ -54,15 +54,15 @@ export default function ImageUploadDetection() {
       toast.error("Please select an image first");
       return;
     }
-
     setIsProcessing(true);
     setDetectionResult(null);
 
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
+
       const { data } = await axios.post<PredictionResponse>(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/predict`,
+        "/api/predict",
         formData,
         {
           headers: {
@@ -78,7 +78,7 @@ export default function ImageUploadDetection() {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const status = error.response.status;
-          const message = error.response.data?.detail || "Detection failed";
+          const message = error.response.data?.error || "Detection failed";
 
           if (status === 400) toast.error(`Invalid request: ${message}`);
           else toast.error(`Server error: ${message}`);
