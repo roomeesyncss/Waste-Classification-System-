@@ -327,7 +327,7 @@ export default function CameraStreamDetection() {
       {detectionResult && (
         <Card className="mt-6 bg-zinc-900/80 border-zinc-800/50 overflow-hidden backdrop-blur-sm">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-teal-500/5"></div>
-          <CardContent className="pt-6 relative">
+          <CardContent className="pt-6 max-sm:px-3 relative">
             <div className="flex sm:flex-row flex-col justify-center mb-4">
               <div className="flex items-center">
                 <div className="w-2 h-2 rounded-full bg-purple-500 mr-2 animate-pulse"></div>
@@ -339,7 +339,7 @@ export default function CameraStreamDetection() {
                 Frame #{detectionCount}
               </div>
             </div>
-            <div className="p-6 bg-zinc-800/80 rounded-lg border border-zinc-700/50 shadow-inner">
+            <div className="sm:p-6 py-6 px-2 bg-zinc-800/80 rounded-lg border border-zinc-700/50 shadow-inner">
               <div className="flex sm:flex-row flex-col items-center justify-center space-x-4">
                 <span className="sm:text-4xl text-2xl animate-bounce max-sm:text-center">
                   {getWasteTypeEmoji(detectionResult)}

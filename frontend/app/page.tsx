@@ -19,10 +19,10 @@ export default function Home() {
               with our advanced AI system
             </p>
 
-            <div className="w-full bg-zinc-900/80 backdrop-blur-sm rounded-xl p-8 shadow-2xl border border-zinc-800/50 relative overflow-hidden">
+            <div className="w-full bg-zinc-900/80 backdrop-blur-sm rounded-xl sm:p-8 p-4 py-8 shadow-2xl border border-zinc-800/50 relative overflow-hidden">
               <div className="absolute inset-0 bg-grid-white/[0.02] -z-10"></div>
 
-              <Tabs defaultValue="image" className="w-full">
+              <Tabs defaultValue="image" className="w-full !p-0">
                 <TabsList className="grid w-full grid-cols-2 mb-8 bg-zinc-800/50 sm:p-1 rounded-lg">
                   <TabsTrigger
                     value="image"

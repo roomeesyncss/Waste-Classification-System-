@@ -194,7 +194,7 @@ export default function ImageUploadDetection() {
       {detectionResult && (
         <Card className="mt-6 bg-zinc-900/80 border-zinc-800/50 overflow-hidden backdrop-blur-sm">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-teal-500/5"></div>
-          <CardContent className="pt-6 relative">
+          <CardContent className="pt-6 max-sm:px-3 relative">
             <div className="flex items-center mb-4">
               <div className="w-2 h-2 rounded-full bg-purple-500 mr-2 animate-pulse"></div>
               <h3 className="text-lg font-medium text-zinc-200">
