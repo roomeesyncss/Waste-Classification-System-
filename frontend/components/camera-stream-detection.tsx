@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
-  Camera,
   Loader2,
   Video,
   VideoOff,
@@ -52,6 +51,7 @@ export default function CameraStreamDetection() {
     try {
       return canvas.toDataURL("image/jpeg", 0.8);
     } catch (err) {
+      console.error("Error capturing frame:", err);
       return null;
     }
   }, []);
@@ -80,6 +80,7 @@ export default function CameraStreamDetection() {
 
       setConfidence(Math.random() * 0.3 + 0.7);
     } catch (error) {
+      console.error("Error during detection:", error);
     } finally {
       setIsProcessingFrame(false);
     }

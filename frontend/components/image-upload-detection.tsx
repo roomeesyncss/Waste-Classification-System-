@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn, getWasteTypeColor, getWasteTypeEmoji } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface PredictionResponse {
   prediction: string;
@@ -117,10 +118,12 @@ export default function ImageUploadDetection() {
           {image ? (
             <div className="space-y-4 w-full">
               <div className="relative">
-                <img
+                <Image
                   src={image}
                   alt="Uploaded"
                   className="max-h-64 mx-auto object-contain rounded-md"
+                  width={400}
+                  height={400}
                 />
                 <Button
                   onClick={(e) => {
